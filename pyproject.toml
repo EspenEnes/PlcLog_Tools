@@ -146,8 +146,8 @@ omit = [
 ]
 
 [tool.coverage.paths]
-parser = ["src/parser", "*/parser/src/parser"]
-tests = ["tests", "*/parser/tests"]
+parser = ["src/parser", "*/src/parser"]
+tests = ["tests", "*/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
