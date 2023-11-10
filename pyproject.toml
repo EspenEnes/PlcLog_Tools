@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "parser"
@@ -146,8 +146,8 @@ omit = [
 ]
 
 [tool.coverage.paths]
-parser = ["src/parser", "*/parser/src/parser"]
-tests = ["tests", "*/parser/tests"]
+parser = ["src/parser", "*/src/parser"]
+tests = ["tests", "*/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
