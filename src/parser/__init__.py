@@ -2,4 +2,4 @@
 #
 # SPDX-License-Identifier: MIT
 
-
+from .plclog_reader import test
