@@ -24,7 +24,7 @@ def read_plc_log(file, use_timestamp=False):
     prev_fileName = read_struct_from_binary(f)
     next_fileName = read_struct_from_binary(f)
 
-    sample_dt = sample_dt.apply(lambda x: pd.Timedelta(x, unit="s"))
+
 
     data = []
     for i in range(0, channel_cnt):
@@ -37,7 +37,7 @@ def read_plc_log(file, use_timestamp=False):
 
     if not use_timestamp:
         df.reset_index(inplace=True)
-        df["index"] = df["index"].apply(lambda x: x + sample_start)
+        df["index"] = sample_dt.apply(lambda x: pd.Timedelta(x, unit="s") + sample_start)
         df.set_index("index", inplace=True)
 
     return df
