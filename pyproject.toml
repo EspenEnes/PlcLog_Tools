@@ -10,7 +10,7 @@ dynamic = ["version"]
 description = 'A project to parse and read different files'
 readme = "README.md"
 requires-python = ">=3.7"
-license = "MIT"
+license = "MIT License"
 keywords = []
 authors = [
   { name = "Espen Enes", email = "espen.enes@nov.com" },
