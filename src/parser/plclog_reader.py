@@ -11,7 +11,9 @@ def read(file):
     elif  type(file) == str:
         if zipfile.is_zipfile(file):
             file = zipfile.ZipFile(file)
-        f =  open(file, "rb")
+            f = file.open(file.filelist[0].filename, "r")
+        else:
+            f =  open(file, "rb")
 
     sample_cnt = int.from_bytes(f.read(4), "little")
     VersionOfData = int.from_bytes(f.read(4), "little")
@@ -26,6 +28,8 @@ def read(file):
         name = read_struct_from_binary(f)
         data = pd.Series(np.frombuffer(f.read(sample_cnt * 4), dtype=np.float32), sample_dt, name=name)
         df = pd.concat([df, data], axis=1)
+
+    f.close()
 
     df.reset_index(inplace=True)
     df["index"] = df["index"].apply(lambda x: pd.Timedelta(x, unit="s") + sample_start)
