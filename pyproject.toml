@@ -4,13 +4,16 @@
 requires = ["setuptools>=43.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/parser"]
+
 [project]
 name = "parser"
 dynamic = ["version"]
 description = 'A project to parse and read different files'
 readme = "README.md"
 requires-python = ">=3.7"
-license = "MIT License"
+license = "MIT"
 keywords = []
 authors = [
   { name = "Espen Enes", email = "espen.enes@nov.com" },
