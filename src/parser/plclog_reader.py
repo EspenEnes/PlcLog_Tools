@@ -18,7 +18,7 @@ def read(file):
     sample_cnt = int.from_bytes(f.read(4), "little")
     VersionOfData = int.from_bytes(f.read(4), "little")
     sample_start = oledatetime_to_datetime(np.frombuffer(f.read(8), np.float64))
-    sample_dt = pd.Series(np.frombuffer(f.read(self.sample_cnt * 4), dtype=np.float32))
+    sample_dt = pd.Series(np.frombuffer(f.read(sample_cnt * 4), dtype=np.float32))
     channel_cnt = int.from_bytes(f.read(4), "little")
     prev_fileName = read_struct_from_binary(f)
     next_fileName = read_struct_from_binary(f)
