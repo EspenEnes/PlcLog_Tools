@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from .scripts import oledatetime_to_datetime, read_struct_from_binary
 
-def read(file):
+def read(file, use_timestamp=False):
     f = io.BytesIO()
     if type(file) == zipfile.ZipFile:
         f = file.open(file.filelist[0].filename, "r")
@@ -26,13 +26,12 @@ def read(file):
     df = pd.DataFrame()
     for i in range(0, channel_cnt):
         name = read_struct_from_binary(f)
-        data = pd.Series(np.frombuffer(f.read(sample_cnt * 4), dtype=np.float32), sample_dt, name=name)
+        data = pd.Series(np.frombuffer(f.read(sample_cnt * 4), dtype=np.float32), pd.Timedelta(sample_dt, unit="s"), name=name)
         df = pd.concat([df, data], axis=1)
 
     f.close()
 
-    df.reset_index(inplace=True)
-    df["index"] = df["index"].apply(lambda x: pd.Timedelta(x, unit="s") + sample_start)
+    df.index = df.index + sample_start
 
     return df
 
