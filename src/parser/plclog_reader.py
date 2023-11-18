@@ -3,9 +3,10 @@ import zipfile
 import numpy as np
 import pandas as pd
 from .scripts import oledatetime_to_datetime, read_struct_from_binary
+import pathlib
 
 
-def read_plc_log(file, use_timestamp=False):
+def read_plc_log(file, use_timestamp=False, read_series=True):
     f = io.BytesIO()
     if type(file) == zipfile.ZipFile:
         f = file.open(file.filelist[0].filename, "r")
@@ -23,8 +24,7 @@ def read_plc_log(file, use_timestamp=False):
     channel_cnt = int.from_bytes(f.read(4), "little")
     prev_fileName = read_struct_from_binary(f)
     next_fileName = read_struct_from_binary(f)
-
-
+    pass
 
     data = []
     for i in range(0, channel_cnt):
@@ -39,5 +39,13 @@ def read_plc_log(file, use_timestamp=False):
         df.reset_index(inplace=True)
         df["index"] = sample_dt.apply(lambda x: pd.Timedelta(x, unit="s") + sample_start)
         df.set_index("index", inplace=True)
+
+    if read_series:
+        path = pathlib.Path(file)
+        next_path = path.parent.joinpath(next_fileName)
+        if next_path.is_file():
+            if prev_fileName != next_fileName:
+                new = read_plc_log(str(next_path))
+                df = pd.concat([df, new])
 
     return df

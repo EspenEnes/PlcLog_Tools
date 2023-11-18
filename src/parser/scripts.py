@@ -1,3 +1,6 @@
+import base64
+import io
+import zipfile
 from datetime import datetime, timedelta
 import math
 from typing import BinaryIO
@@ -26,6 +29,14 @@ def convert_df_to_timeseries(df: pd.DataFrame):
                 col]).dropna()
         output[col] = new
     return pd.DataFrame(output)
+
+def zipfile_from_bytes(content_bytes):
+    content_decoded = base64.b64decode(content_bytes)
+    # Use BytesIO to handle the decoded content
+    zip_str = io.BytesIO(content_decoded)
+    # Now you can use ZipFile to take the BytesIO output
+    zfile = zipfile.ZipFile(zip_str, 'r')
+    return zfile
 
 
 
