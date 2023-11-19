@@ -13,7 +13,7 @@
 ## Installation
 
 ```console
-pip install parser
+pip install git+https://github.com/EspenEnes/PlcLog_Tools.git
 ```
 
 ## License
