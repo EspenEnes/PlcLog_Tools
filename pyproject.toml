@@ -29,7 +29,7 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = ["pandas", "numpy"]
+dependencies = ["pandas", "numpy", "dash"]
 
 [project.urls]
 Documentation = "https://github.com/unknown/parser#readme"

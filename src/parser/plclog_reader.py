@@ -6,7 +6,9 @@ from .scripts import oledatetime_to_datetime, read_struct_from_binary
 import pathlib
 
 
-def read_plc_log(file, use_timestamp=False, read_series=True):
+def read_plc_log(file, use_timestamp=False, read_series=False):
+    """This function will read a PlcLog file and output a dataframe containing all the traces,
+    yiu can decide if you want to read all continus files with read_series"""
     f = io.BytesIO()
     if type(file) == zipfile.ZipFile:
         f = file.open(file.filelist[0].filename, "r")
