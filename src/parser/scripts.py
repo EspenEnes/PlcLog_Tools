@@ -15,6 +15,12 @@ def oledatetime_to_datetime(dateval):
     day_frac = timedelta(abs(parts[0]))
     return basedate + days + day_frac
 
+def datetime_to_oledatetime(dateval):
+    basedate = datetime(1899, 12, 30)
+    delta = dateval - basedate
+    return float(delta.days) + (float(delta.seconds) / 86400)
+
+
 def read_struct_from_binary(binary: BinaryIO):
     length = int.from_bytes(binary.read(4), "little")
     bufferd = binary.read(length)
@@ -31,6 +37,7 @@ def convert_df_to_timeseries(df: pd.DataFrame):
     return pd.DataFrame(output)
 
 def zipfile_from_bytes(content_bytes):
+    """When loading a file from the browser the file is a byteIO"""
     content_decoded = base64.b64decode(content_bytes)
     # Use BytesIO to handle the decoded content
     zip_str = io.BytesIO(content_decoded)
