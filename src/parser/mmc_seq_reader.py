@@ -2,6 +2,7 @@ import zipfile
 
 import pandas as pd
 from .constants import *
+from .scripts import convert_df_to_timeseries
 
 
 def mmc_step_task(machine_name, df: pd.Series, seq_name, start_dt, end_dt):
@@ -12,6 +13,8 @@ def mmc_step_task(machine_name, df: pd.Series, seq_name, start_dt, end_dt):
 
     mask = (df.index >= start_dt) & (df.index <= end_dt)
     new_df = df.where(mask).dropna()
+
+    new_df = new_df.where(new_df.shift() != new_df).dropna()
 
     old = None
 
@@ -168,6 +171,7 @@ def mmc_seq_tasks(data_frame: pd.DataFrame | zipfile.ZipFile,
             for seq_columns2, step_columns2, machine_id in zip(seq_columns, step_columns, groups):
                 seq_pair = []
                 seq_column_data = data_frame.iloc[:, seq_columns2]
+                seq_column_data = convert_df_to_timeseries(seq_column_data)
                 step_column_data = data_frame.iloc[:, step_columns2]
                 for seq, step in zip(seq_column_data, step_column_data):
                     new = [seq_column_data[seq], step_column_data[step]]

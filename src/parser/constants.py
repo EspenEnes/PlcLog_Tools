@@ -27,6 +27,7 @@ class HT(enum.IntEnum):
     HT_TripOut = 2
     HT_AddStand = 3
     HT_PrepareforConnection = 101
+    HT_DrainPipe = 105
     HT_Connect = 106
     HT_Disconnect = 107
     HT_TorqueUp = 108

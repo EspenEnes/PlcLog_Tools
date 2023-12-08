@@ -9,11 +9,22 @@ import pandas as pd
 
 
 def oledatetime_to_datetime(dateval):
+    """an OLE date time is a floating-point number that measures the number of days since December 30, 1899 at midnight.
+    The integer part of the number is the date, and the fractional part is the time. For example"""
     basedate = datetime(year=1899, month=12, day=30, hour=0, minute=0)
     parts = math.modf(dateval)
     days = timedelta(parts[1])
     day_frac = timedelta(abs(parts[0]))
     return basedate + days + day_frac
+
+def zeroEpoctimestamp_to_datetime(dateval):
+    dateval = dateval
+    basedate = datetime(year=1, month=1, day=1, hour=0, minute=0)
+    parts = math.modf(dateval)
+    days = timedelta(seconds=parts[1])
+    day_frac = timedelta(abs(parts[0]))
+    return basedate + days + day_frac - timedelta(days=365)
+
 
 def datetime_to_oledatetime(dateval):
     basedate = datetime(1899, 12, 30)
